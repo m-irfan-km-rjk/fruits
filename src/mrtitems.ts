@@ -3,22 +3,28 @@ export async function postmrtitems(request: Request, env: any) {
       const {id, name, price, quantity, image } = body;
       if(id==null){
         return Response.json({
-          Headers: { "Content-Type": "application/json" },
-          success: false,
+    headers: {
+  "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "*"
+},          success: false,
           message: "ID is required",
         }, { status: 400 });
       }
       else if(name==null){
         return Response.json({
-          Headers: { "Content-Type": "application/json" },
-          success: false,
+    headers: {
+  "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "*"
+},          success: false,
           message: "Name is required",
         }, { status: 400 });
       }
       else if(price==null){
         return Response.json({
-          Headers: { "Content-Type": "application/json" },
-          success: false,
+    headers: {
+  "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "*"
+},          success: false,
           message: "Price is required",
         }, { status: 400
         })
@@ -34,15 +40,19 @@ export async function postmrtitems(request: Request, env: any) {
         ).bind(id).run();
         console.log(item);
         return Response.json({
-          Headers: { "Content-Type": "application/json" },
-          success: true,
+    headers: {
+  "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "*"
+},          success: true,
           item: item.results[0],
         });
       }
       else{
         return Response.json({
-          Headers: { "Content-Type": "application/json" },
-          success:false,         
+    headers: {
+  "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "*"
+},          success:false,         
         });
       }
   }
@@ -64,8 +74,10 @@ export async function putmrtitem(request: Request, env: any) {
         ).bind(id).run();
 
       return Response.json({
-        Headers: { "Content-Type": "application/json" },
-        success: true,
+  headers: {
+  "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "*"
+},        success: true,
         item: results[0]
       });
 }
@@ -77,13 +89,17 @@ export async function deletemrtitem(request: Request, env: any) {
 
   if (result.success) {
     return Response.json({
-      Headers: { "Content-Type": "application/json" },
-      success: true,
+headers: {
+  "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "*"
+},      success: true,
     });
   } else {
     return Response.json({
-      Headers: { "Content-Type": "application/json" },
-      success: false,
+headers: {
+  "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "*"
+},      success: false,
       message: "Failed to delete item",
     }, { status: 500 });
   }
@@ -94,7 +110,10 @@ export async function getmrtitems(request: Request, env: any) {
       ).all();
 
       return Response.json({
-        Headers: { "Content-Type": "application/json" },
+headers: {
+  "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "*"
+},
         items: results
       });
 }

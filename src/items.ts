@@ -3,22 +3,28 @@ export async function postitems(request: Request, env: any) {
       const {id, name, price, quantity, image } = body;
       if(id==null){
         return Response.json({
-          Headers: { "Content-Type": "application/json" },
-          success: false,
+    headers: {
+  "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "*"
+},          success: false,
           message: "ID is required",
         }, { status: 400 });
       }
       else if(name==null){
         return Response.json({
-          Headers: { "Content-Type": "application/json" },
-          success: false,
+    headers: {
+  "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "*"
+},          success: false,
           message: "Name is required",
         }, { status: 400 });
       }
       else if(price==null){
         return Response.json({
-          Headers: { "Content-Type": "application/json" },
-          success: false,
+    headers: {
+  "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "*"
+},          success: false,
           message: "Price is required",
         }, { status: 400
         })
@@ -34,15 +40,19 @@ export async function postitems(request: Request, env: any) {
         ).bind(id).run();
         console.log(item);
         return Response.json({
-          Headers: { "Content-Type": "application/json" },
-          success: true,
+    headers: {
+  "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "*"
+},          success: true,
           item: item.results[0],
         });
       }
       else{
         return Response.json({
-          Headers: { "Content-Type": "application/json" },
-          success:false,         
+    headers: {
+  "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "*"
+},          success:false,         
         });
       }
   }
@@ -61,8 +71,10 @@ export async function putitem(request: Request, env: any) {
         .run();
 
       return Response.json({
-        Headers: { "Content-Type": "application/json" },
-        success: true
+  headers: {
+  "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "*"
+},        success: true
       });
 }
 export async function deleteitem(request: Request, env: any) {
@@ -73,8 +85,10 @@ export async function deleteitem(request: Request, env: any) {
 
   if (result.success) {
     return Response.json({
-      Headers: { "Content-Type": "application/json" },
-      success: true,
+headers: {
+  "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "*"
+},      success: true,
     });
   } else {
     return Response.json({
@@ -90,7 +104,9 @@ export async function getitems(request: Request, env: any) {
       ).all();
 
       return Response.json({
-        Headers: { "Content-Type": "application/json" },
-        items: results
+  headers: {
+  "Content-Type": "application/json",
+  "Access-Control-Allow-Origin": "*"
+},        items: results
       });
 }
