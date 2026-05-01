@@ -3,18 +3,21 @@ export async function postmrtitems(request: Request, env: any) {
       const {id, name, price, quantity, image } = body;
       if(id==null){
         return Response.json({
+          Headers: { "Content-Type": "application/json" },
           success: false,
           message: "ID is required",
         }, { status: 400 });
       }
       else if(name==null){
         return Response.json({
+          Headers: { "Content-Type": "application/json" },
           success: false,
           message: "Name is required",
         }, { status: 400 });
       }
       else if(price==null){
         return Response.json({
+          Headers: { "Content-Type": "application/json" },
           success: false,
           message: "Price is required",
         }, { status: 400
@@ -31,12 +34,14 @@ export async function postmrtitems(request: Request, env: any) {
         ).bind(id).run();
         console.log(item);
         return Response.json({
-        success: true,
-        item: item.results[0],
-      });
+          Headers: { "Content-Type": "application/json" },
+          success: true,
+          item: item.results[0],
+        });
       }
       else{
         return Response.json({
+          Headers: { "Content-Type": "application/json" },
           success:false,         
         });
       }
@@ -58,7 +63,11 @@ export async function putmrtitem(request: Request, env: any) {
           `SELECT id, name, price, quantity, image FROM mrtitems WHERE id = ?`
         ).bind(id).run();
 
-      return Response.json({ success: true,item:results[0]});
+      return Response.json({
+        Headers: { "Content-Type": "application/json" },
+        success: true,
+        item: results[0]
+      });
 }
 export async function deletemrtitem(request: Request, env: any) {
   const id = new URL(request.url).pathname.split("/")[2];
@@ -68,10 +77,12 @@ export async function deletemrtitem(request: Request, env: any) {
 
   if (result.success) {
     return Response.json({
+      Headers: { "Content-Type": "application/json" },
       success: true,
     });
   } else {
     return Response.json({
+      Headers: { "Content-Type": "application/json" },
       success: false,
       message: "Failed to delete item",
     }, { status: 500 });
@@ -82,5 +93,8 @@ export async function getmrtitems(request: Request, env: any) {
         `SELECT * FROM mrtitems ORDER BY id DESC`
       ).all();
 
-      return Response.json({ items: results });
+      return Response.json({
+        Headers: { "Content-Type": "application/json" },
+        items: results
+      });
 }
