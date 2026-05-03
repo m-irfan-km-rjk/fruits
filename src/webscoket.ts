@@ -4,13 +4,13 @@ const headers = {
 }; 
 async function getItemsFromDB(env) {
     const { results } = await env.DB.prepare(
-      `SELECT * FROM items ORDER BY id DESC`
+      `SELECT id, name, price, quantity, image FROM items ORDER BY id DESC`
     ).all();
     return results;
 }   
 async function getNewItems(env) {
     const { results } = await env.DB.prepare(
-      `SELECT * FROM items`
+      `SELECT id, name, price, quantity, image FROM items ORDER BY id DESC `
     ).bind().all();
     return results;
 }
@@ -38,7 +38,7 @@ try{
         type: "update",
         items: newItems
       }));
-    }, 60000);
+    }, 600000);
 
     return new Response(null, {
       status: 101,
