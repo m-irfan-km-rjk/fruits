@@ -31,14 +31,14 @@ try{
       items: await getItemsFromDB(env),
     }));
 
-    // Example: push new data every 5 sec
+    // Example: push new data every 10 minutes
     setInterval(async () => {
       const newItems = await getNewItems(env);
       server.send(JSON.stringify({
         type: "update",
         items: newItems
       }));
-    }, 5000);
+    }, 60000);
 
     return new Response(null, {
       status: 101,
