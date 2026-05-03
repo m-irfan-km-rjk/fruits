@@ -13,5 +13,7 @@ export default {
     if (method === "POST" && url.pathname==="/mrtitems") {return await postmrtitems(request, env);}
     if (method === "PUT" && url.pathname.startsWith("/mrtitems/")) {return await putmrtitem(request, env);}
     if (method === "DELETE" && url.pathname.startsWith("/mrtitems/")) {return await deletemrtitem(request, env);}
+
+    if (method === "GET" && url.pathname === "/items/ws") {return await}
     return new Response("Not Found", { status: 404 });
-  }}
+  }
