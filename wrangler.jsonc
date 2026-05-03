@@ -12,10 +12,6 @@
 	],
 	"r2_buckets": [
 		{
-			"binding": "fruits",
-			"bucket_name": "fruits", // <~ the name of your R2 bucket
-		},
-		{
 			"bucket_name": "friuts",
 			"binding": "friuts",
 			"remote": true
