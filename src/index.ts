@@ -1,5 +1,6 @@
 import { getitems,postitems,putitem,deleteitem } from "./items";
 import { getmrtitems,postmrtitems,putmrtitem,deletemrtitem } from "./mrtitems";
+import { itemwebsocket } from "./webscoket";
 
 export default {
   async fetch(request: Request, env: any) {
@@ -14,6 +15,6 @@ export default {
     if (method === "PUT" && url.pathname.startsWith("/mrtitems/")) {return await putmrtitem(request, env);}
     if (method === "DELETE" && url.pathname.startsWith("/mrtitems/")) {return await deletemrtitem(request, env);}
 
-    if (method === "GET" && url.pathname === "/items/ws") {return await}
+    if (method === "GET" && url.pathname === "/items/ws") {return await itemwebsocket(request, env);}
     return new Response("Not Found", { status: 404 });
-  }
+  }}
