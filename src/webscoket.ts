@@ -2,6 +2,19 @@ const headers = {
   "Content-Type": "application/json",
   "Access-Control-Allow-Origin": "*",
 }; 
+async function getItemsFromDB(env) {
+    const { results } = await env.DB.prepare(
+      `SELECT * FROM items ORDER BY id DESC`
+    ).all();
+    return results;
+}   
+async function getNewItems(env) {
+    const { results } = await env.DB.prepare(
+      `SELECT * FROM items`
+    ).bind().all();
+    return results;
+}
+
 export async function itemwebsocket(request, env) {
 try{ 
     if (request.headers.get("Upgrade") !== "websocket") {
@@ -32,22 +45,10 @@ try{
       webSocket: client,
     });
   }
-}catch(err){
+ catch (err){
   return new Response(JSON.stringify({
     success: false,
     error: err.message
   }), { status: 500, headers });
 }
-
-function getItemsFromDB(env) {
-    const { results } = await env.DB.prepare(
-      `SELECT * FROM items ORDER BY id DESC`
-    ).all();
-    return results;
 }   
-function getNewItems(env) {
-    const { results } = await env.DB.prepare(
-      `SELECT * FROM items`
-    ).bind().all();
-    return results;
-}
