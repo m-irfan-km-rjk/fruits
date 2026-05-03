@@ -4,8 +4,13 @@ const headers = {
 }; 
 export async function postitems(request, env) {
   try {
-    const body = await request.json();
-    const { id, name, price, quantity, image } = body;
+    console.log(request.headers.get("content-type"));
+    const formdata = await request.formData();
+    const id = formdata.get("id") as string;
+    const name = formdata.get("name") as string;
+    const price = formdata.get("price") as string;
+    const quantity = formdata.get("quantity") as string;
+    const image = formdata.get("image") as File;
 
     if (!id) {
       return new Response(JSON.stringify({ success: false, message: "ID is required" }), { status: 400, headers });
@@ -16,11 +21,16 @@ export async function postitems(request, env) {
     if (price == null) {
       return new Response(JSON.stringify({ success: false, message: "Price is required" }), { status: 400, headers });
     }
-
+    let imageUrl =null;
+    if (image) {
+      const imageKey = `images/${id}-${image.name}`;
+      await env.fruits.put(imageKey, image);
+      imageUrl = `https://${env.CF_ACCOUNT_ID}.r2.cloudflarestorage.com/${env.fruits.name}/${imageKey}`;
+    }
     const result = await env.DB.prepare(
       `INSERT INTO items (id, name, price, quantity, image)
        VALUES (?, ?, ?, ?, ?)`
-    ).bind(id, name, price, quantity ?? 0, image ?? "").run();
+    ).bind(id, name, price, quantity ?? 0, imageUrl ?? "").run();
 
     if (!result.success) {
       return new Response(JSON.stringify({ success: false }), { status: 500, headers });
@@ -45,13 +55,24 @@ export async function postitems(request, env) {
 export async function putitem(request, env) {
   try {
     const id = new URL(request.url).pathname.split("/")[2];
-    const { name, price, quantity, image } = await request.json();
-
+      const object = await env.fruits.get(id);
+  if (!object) return new Response("Not found", { status: 404 });
+    const formdata = await request.formData();
+    const name = formdata.get("name") as string;
+    const price = formdata.get("price") as string;
+    const quantity = formdata.get("quantity") as string;
+    const image = formdata.get("image") as File;
+    let imageUrl = null;
+    if (image) {
+      const imageKey = `images/${id}-${image.name}`;
+      await env.fruits.put(imageKey, image);
+      imageUrl = `https://${env.CF_ACCOUNT_ID}.r2.cloudflarestorage.com/${env.fruits.name}/${imageKey}`;
+    }
     const result = await env.DB.prepare(
       `UPDATE items
        SET name = ?, price = ?, quantity = ?, image = ?
        WHERE id = ?`
-    ).bind(name, price, quantity, image, id).run();
+    ).bind(name, price, quantity, imageUrl ?? "", id).run();
 
     return new Response(JSON.stringify({
       success: result.success

@@ -7,6 +7,8 @@ declare namespace Cloudflare {
 	}
 	interface Env {
 		DB: D1Database;
+		CF_ACCOUNT_ID: string;
+		CF_API_TOKEN: string;
 	}
 }
 interface Env extends Cloudflare.Env {}
